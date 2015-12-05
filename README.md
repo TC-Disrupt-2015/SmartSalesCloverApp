@@ -1,0 +1,2 @@
+# SmartSalesCloverApp
+The clover component 
