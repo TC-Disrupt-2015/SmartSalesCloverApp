@@ -5,12 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'server'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, merchantInterface, productService) {
   $ionicPlatform.ready(function() {
-
-    exec(function(msg){alert(msg);}, function(msgerr){alert(err);}, "Echo", "echo", ["my message"]);
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -23,11 +21,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    if (window.hello) {
+      window.hello.getAuth(function(data){
+        merchantInterface.register(data.merchantId, data.authToken);
+        window.merchantId = data.merchantId;
+        productService.refreshProducts();
+      });
+    };
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
+  $ionicConfigProvider.tabs.position('bottom');
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -43,22 +50,31 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.products', {
+    url: '/products',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
+      'tab-products': {
+        templateUrl: 'templates/tab-products.html',
         controller: 'DashCtrl'
       }
     }
   })
+  .state('tab.product-details', {
+    url: '/products/:id',
+    views: {
+      'tab-products': {
+        templateUrl: 'templates/product.html',
+        controller: 'ProdCtrl'
+      }
+    }
+  })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.orders', {
+      url: '/orders',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-orders': {
+          templateUrl: 'templates/tab-orders.html',
+          controller: 'DashCtrl'
         }
       }
     })

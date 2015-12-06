@@ -1,0 +1,28 @@
+<ion-view view-title="{{getSelectedProduct().name}}">
+  <ion-content class="padding">
+    <div style="float:left;">
+      <img style="width:300px;" ng-src="http://web.manthanhd.com:3000/uploads/{{getSelectedProduct().photos[0]}}">
+    </div>
+    <div style="float:left; margin-top: 25px; margin-left: 10px;">
+      <h4>{{getSelectedProduct().name}}</h4>
+      <b>Available: </b>{{getSelectedProduct().unitsAvailable}}<br>
+      <b>Cost: </b>£{{getSelectedProduct().price}}<br>
+      <b>Description:</b>
+      <p>{{getSelectedProduct().description}}</p>
+
+      <div>
+        <!-- <button style="margin-top: 10px; width: 70%; margin-left: auto; margin-right: auto;">Sample</button> -->
+        <div>
+          <div>
+            Quantity: <input style="width:200px; border:solid 1px;" type="number">
+            Sale Price: <input style="width:200px; border:solid 1px;" type="number" on-click="makeOrder()">
+            <a href="javascript:void(0);" ng-click="makeOrder()">
+              <div style="margin-top: 10px;width: 100%;margin-left: auto;margin-right: auto;background-color: #6D84B4;color: white;text-decoration: none !important;height: 30px;text-align: center;padding-top: 5px;">Order</div>
+            </a>
+          </div>
+        </div>
+    </div>
+
+    <div>
+  </ion-content>
+</ion-view>
